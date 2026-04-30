@@ -29,13 +29,7 @@
     transition: all 0.3s ease;
   }
 
- header {
-   <div class="container">
-    <div class="countdown-box">
-        <h3>العد التنازلي لشهادة التعليم المتوسط 2026</h3>
-        <div id="countdown" style="font-size: 20px; font-weight: bold;"></div>
-    </div>
-</div>
+  header {
     background: var(--primary-color);
     color: white;
     padding: 20px;
@@ -45,19 +39,20 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-}
+  }
 
-header img {
+  header img {
     width: 80px;
     height: 80px;
     border-radius: 50%;
     border: 3px solid white;
     margin-bottom: 10px;
     object-fit: cover;
-}
+  }
+
   .settings-icon {
-    position: absolute; left: 20px; top: 50%;
-    transform: translateY(-50%); cursor: pointer; font-size: 24px;
+    position: absolute; left: 20px; top: 20px;
+    cursor: pointer; font-size: 24px;
   }
 
   .container {
@@ -113,13 +108,20 @@ header img {
     align-items: center; justify-content: center; padding: 12px;
     border-radius: 8px; margin-top: 10px; font-weight: bold;
   }
+
+  .solution-box {
+    display: none; text-align: right; background: #f9f9f9; 
+    padding: 15px; margin-top: 15px; border-radius: 10px;
+    border-right: 4px solid #27ae60; color: #333;
+  }
 </style>
 </head>
 <body>
 
 <header>
   <div class="settings-icon" onclick="showSection('settings')">⚙️</div>
-  <h1>BEM Master</h1>
+  <img src="logo.png" alt="BEM Master">
+  <h1 style="margin:0;">BEM Master</h1>
 </header>
 
 <div class="container" id="home">
@@ -129,6 +131,7 @@ header img {
       <div><span id="days">00</span><br><small>يوم</small></div>
       <div><span id="hours">00</span><br><small>ساعة</small></div>
       <div><span id="minutes">00</span><br><small>دقيقة</small></div>
+      <div><span id="seconds">00</span><br><small>ثانية</small></div>
     </div>
   </div>
 
@@ -145,7 +148,6 @@ header img {
   </div>
 </div>
 
-<!-- صفحة اختيار الفصول -->
 <div class="container hidden" id="terms-page">
   <h2 id="subject-title">المادة</h2>
   <div class="term-card" onclick="showTopics('1')">📅 مواضيع الفصل الأول</div>
@@ -154,16 +156,12 @@ header img {
   <button class="back-btn" onclick="showSection('home')">🔙 العودة للمواد</button>
 </div>
 
-<!-- صفحة عرض المواضيع والدروس -->
 <div class="container hidden" id="topics-page">
   <h2 id="term-title">المواضيع</h2>
-  <div class="content-box" id="topics-content">
-    <!-- هنا تظهر الدروس تلقائياً -->
-  </div>
+  <div class="content-box" id="topics-content"></div>
   <button class="back-btn" onclick="goBackToTerms()">🔙 العودة للفصول</button>
 </div>
 
-<!-- صفحة الإعدادات -->
 <div class="container hidden" id="settings">
   <h2>⚙️ الإعدادات</h2>
   <div class="content-box">
@@ -184,14 +182,12 @@ header img {
   let currentSubject = "";
   let currentSubjectName = "";
 
-  // دالة إظهار قسم معين
   function showSection(id) {
     document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
     document.getElementById(id).classList.remove('hidden');
     window.scrollTo(0,0);
   }
 
-  // إظهار الفصول عند اختيار مادة
   function showTerms(subjectId, subjectName) {
     currentSubject = subjectId;
     currentSubjectName = subjectName;
@@ -199,60 +195,58 @@ header img {
     showSection('terms-page');
   }
 
-  // إظهار المواضيع بناءً على الفصل والمادة
- function showTopics(termNumber) {
+  function showTopics(termNumber) {
     const content = document.getElementById('topics-content');
     document.getElementById('term-title').innerText = `${currentSubjectName} - الفصل ${termNumber}`;
     
-    let htmlContent = "";
-
     if (currentSubject === 'math') {
-        htmlContent = `
-          <div style="text-align:center;">
-            <h3 style="color:#2c3e50;">موضوع الرياضيات - دورة جوان 2010</h3>
-            <img src="math2010.png" alt="الموضوع" style="width:100%; border-radius:8px; border:1px solid #ddd;">
-            
-            <button onclick="toggleSolution()" style="margin-top:20px; background:#e67e22; color:white; padding:10px; border:none; border-radius:5px; cursor:pointer;">
-                إظهار الحل النموذجي والتنقيط
-            </button>
+        content.innerHTML = `
+            <div style="text-align:center;">
+                <p style="font-weight:bold;">موضوع الرياضيات - دورة جوان 2010</p>
+                <img src="math2010.png" style="width:100%; border-radius:10px; margin-bottom:15px; border:1px solid #ddd;">
+                
+                <div style="display:flex; gap:10px; justify-content:center; margin-bottom:15px;">
+                    <a href="BEM-Master-Math-2010.pdf" target="_blank" style="background:#2980b9; color:white; padding:10px; text-decoration:none; border-radius:8px; font-size:14px; flex:1;">📥 تحميل PDF</a>
+                    <button onclick="toggleSolution()" style="background:#e67e22; color:white; padding:10px; border:none; border-radius:8px; cursor:pointer; font-size:14px; flex:1;">💡 إظهار الحل</button>
+                </div>
 
-            <div id="solution-section" style="display:none; margin-top:15px; text-align:right; background:#f9f9f9; padding:15px; border-radius:8px;">
-                <h4 style="color:#27ae60;">مقتطفات من التصحيح الرسمي:</h4>
-                <ul style="direction:rtl;">
-                    <li>قيمة a (التمرين الأول): 17[cite: 1].</li>
-                    <li>PGCD للعددين 140 و220 هو: 20[cite: 1].</li>
-                    <li>طول قطر المربع في المسألة: 13[cite: 1].</li>
-                    <li>التكلفة الإجمالية للبلاط: 199,216 دج[cite: 1].</li>
-                </ul>
-                <img src="solution2010.png" alt="الحل النموذجي" style="width:100%; margin-top:10px;">
+                <div id="solution-section" class="solution-box">
+                    <h4 style="margin-top:0; color:#27ae60;">النتائج الرسمية (دورة 2010):</h4>
+                    <ul style="padding-right:20px; font-size:14px; line-height:1.8;">
+                        <li>قيمة a (التمرين الأول): <b>17</b>.</li>
+                        <li>القاسم المشترك الأكبر PGCD: <b>20</b>[cite: 1].</li>
+                        <li>التكلفة الإجمالية (المسألة): <b>199,216 دج</b>[cite: 1].</li>
+                    </ul>
+                    <img src="solution2010.png" style="width:100%; border-radius:5px; margin-top:10px;">
+                </div>
             </div>
-          </div>
         `;
     } else {
-        htmlContent = `<p>سيتم إضافة مواضيع ${currentSubjectName} قريباً...</p>`;
+        content.innerHTML = `<p style="text-align:center;">سيتم إضافة مواضيع ${currentSubjectName} قريباً...</p>`;
     }
-
-    content.innerHTML = htmlContent;
     showSection('topics-page');
-}
+  }
 
-function toggleSolution() {
+  function toggleSolution() {
     const sol = document.getElementById('solution-section');
-    sol.style.display = (sol.style.display === 'none') ? 'block' : 'none';
-}
+    sol.style.display = (sol.style.display === 'none' || sol.style.display === '') ? 'block' : 'none';
+  }
 
   function goBackToTerms() {
     showSection('terms-page');
   }
 
-  // العداد التنازلي
+  // العداد التنازلي المحدث
   const targetDate = new Date("May 19, 2026 08:00:00").getTime();
   setInterval(() => {
     const now = new Date().getTime();
     const diff = targetDate - now;
-    document.getElementById("days").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-    document.getElementById("hours").innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    document.getElementById("minutes").innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    if (diff > 0) {
+      document.getElementById("days").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+      document.getElementById("hours").innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      document.getElementById("minutes").innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      document.getElementById("seconds").innerText = Math.floor((diff % (1000 * 60)) / 1000);
+    }
   }, 1000);
 
   // الوضع الداكن
