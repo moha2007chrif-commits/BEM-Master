@@ -183,21 +183,46 @@
   }
 
   // إظهار المواضيع بناءً على الفصل والمادة
-  function showTopics(termNumber) {
+ function showTopics(termNumber) {
     const content = document.getElementById('topics-content');
     document.getElementById('term-title').innerText = `${currentSubjectName} - الفصل ${termNumber}`;
     
-    // محاكاة إضافة مواضيع (يمكنك تخصيصها لكل مادة وفصل)
-    content.innerHTML = `
-      <ul>
-        <li><b>الموضوع 1:</b> مراجعة شاملة للدروس الأولى.</li>
-        <li><b>الموضوع 2:</b> تمارين مقترحة لشهادة التعليم المتوسط.</li>
-        <li><b>الموضوع 3:</b> ملخص القوانين والقواعد الأساسية.</li>
-      </ul>
-      <p style="color:var(--accent-color); font-weight:bold;">قريباً سيتم إضافة ملفات PDF هنا...</p>
-    `;
+    let htmlContent = "";
+
+    if (currentSubject === 'math') {
+        htmlContent = `
+          <div style="text-align:center;">
+            <h3 style="color:#2c3e50;">موضوع الرياضيات - دورة جوان 2010</h3>
+            <img src="math2010.png" alt="الموضوع" style="width:100%; border-radius:8px; border:1px solid #ddd;">
+            
+            <button onclick="toggleSolution()" style="margin-top:20px; background:#e67e22; color:white; padding:10px; border:none; border-radius:5px; cursor:pointer;">
+                إظهار الحل النموذجي والتنقيط
+            </button>
+
+            <div id="solution-section" style="display:none; margin-top:15px; text-align:right; background:#f9f9f9; padding:15px; border-radius:8px;">
+                <h4 style="color:#27ae60;">مقتطفات من التصحيح الرسمي:</h4>
+                <ul style="direction:rtl;">
+                    <li>قيمة a (التمرين الأول): 17[cite: 1].</li>
+                    <li>PGCD للعددين 140 و220 هو: 20[cite: 1].</li>
+                    <li>طول قطر المربع في المسألة: 13[cite: 1].</li>
+                    <li>التكلفة الإجمالية للبلاط: 199,216 دج[cite: 1].</li>
+                </ul>
+                <img src="solution2010.png" alt="الحل النموذجي" style="width:100%; margin-top:10px;">
+            </div>
+          </div>
+        `;
+    } else {
+        htmlContent = `<p>سيتم إضافة مواضيع ${currentSubjectName} قريباً...</p>`;
+    }
+
+    content.innerHTML = htmlContent;
     showSection('topics-page');
-  }
+}
+
+function toggleSolution() {
+    const sol = document.getElementById('solution-section');
+    sol.style.display = (sol.style.display === 'none') ? 'block' : 'none';
+}
 
   function goBackToTerms() {
     showSection('terms-page');
